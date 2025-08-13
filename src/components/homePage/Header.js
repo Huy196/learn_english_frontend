@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaSearch, FaCog } from "react-icons/fa"; // FaCog là icon cài đặt
+import { FaSearch, FaCog } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/Header.css";
 import defaultAvatar from "../../assets/image/defalut.jpg";
@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 export default function Header() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showMenu, setShowMenu] = useState(false); // state show/hide menu
+    const [showMenu, setShowMenu] = useState(false); 
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -80,7 +80,6 @@ export default function Header() {
                             onClick={() => setShowMenu(!showMenu)}
                         >
                             <img src={defaultAvatar} alt="User Avatar" className="user-avatar" />
-                            <span className="arrow-down">⚙️</span> {/* icon + v */}
                         </div>
 
                         {showMenu && (

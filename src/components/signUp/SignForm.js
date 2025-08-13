@@ -78,7 +78,7 @@ export default function SignForm() {
             <div className="tabs">
                 <span className="tab active">Sign up</span>
 
-                <Link to="/" className="tab">Log in</Link>
+                <Link to="/login" className="tab">Log in</Link>
             </div>
 
             <div className="dividerss"></div>
@@ -140,7 +140,7 @@ export default function SignForm() {
                 </p>
                 <p className="register-link">
                     Already have an account?{" "}
-                    <Link to="/">Log in</Link>
+                    <Link to="/login">Log in</Link>
                 </p>
 
             </form>
