@@ -62,9 +62,15 @@ export default function SignForm() {
 
 
         try {
-            await AuthService.register(form.username.value, form.password.value);
+            const userPayload = {
+                email: form.username.value, 
+                password: form.password.value,
+                roles: ["ROLE_USER"]
+            };
 
-             navigate("/", { state: { successMessage: "Sign up successful! Please log in." } });
+            await AuthService.register(userPayload);
+
+            navigate("/", { state: { successMessage: "Sign up successful! Please log in." } });
         } catch (error) {
             setMessage(error.response?.data?.message || "This account already exists. Please use another email or username");
         }

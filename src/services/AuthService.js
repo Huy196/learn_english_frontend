@@ -8,8 +8,10 @@ const AuthService = {
         return response.data.token;
     },
 
-    register: async (email, password) => {
-        const response = await axios.post(`${API_URL}/register`, {email, password});
+    register: async (userPayload) => {
+        const response = await axios.post(`${API_URL}/register`, userPayload,{
+                    headers: { "Content-Type": "application/json" }
+        });
         return response.data;
     }
 };

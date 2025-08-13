@@ -65,7 +65,7 @@ export default function LoginForm() {
                 setMessage("Login failed: Token not found");
             }
         } catch (err) {
-            setMessage(err.response?.data?.message || "Server error. Please try again later.");
+            setMessage(err.response?.data?.message || "Incorrect login information please try again");
         }
     };
 
