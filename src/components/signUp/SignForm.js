@@ -1,30 +1,41 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InputField from "./InputField";
+import InputField from "../login/InputField";
 import { validateField } from "../../utils/Validate";
-import AuthService from "../../services/AuthService";
-import { jwtDecode } from "jwt-decode";
 import "../../assets/css/Login.css";
+import "../../assets/css/Sign.css";
 import { Link } from "react-router-dom";
 import Google from "../../assets/image/Google.png";
+import AuthService from "../../services/AuthService";
+import { jwtDecode } from "jwt-decode";
 
-
-
-export default function LoginForm() {
+export default function SignForm() {
     const [form, setForm] = useState({});
     const [message, setMessage] = useState("");
-    const navigate = useNavigate();
-
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const toggleShowPassword = () => {
+        setShowPassword(prev => !prev);
+    };
 
     const toggleShowConfirmPassword = () => {
         setShowConfirmPassword(prev => !prev);
     };
 
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        const error = validateField(name, value);
+        let error = validateField(name, value);
+
+        if (name === "confirmPassword") {
+            if (form.password?.value && value !== form.password.value) {
+                error = "Passwords do not match";
+            } else {
+                error = "";
+            }
+        }
 
         setForm(prev => ({
             ...prev,
@@ -32,62 +43,45 @@ export default function LoginForm() {
         }));
 
         setMessage("")
-    };
 
-    const loginWithGoogle = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google";
     };
 
     const handleSubmit = async () => {
         const isFilled = ['username', 'password'].every(field => form[field]?.value);
-        const isError = ['username', 'password'].some(field => form[field]?.error);
+        const isError = ['username', 'password'].every(field => form[field]?.error);
 
         if (!isFilled || isError) {
             setMessage("Please enter valid username and password");
             return;
         }
 
-        try {
-            const token = await AuthService.login(form.username.value, form.password.value);
-
-            if (token) {
-                localStorage.setItem("token", token);
-                const decoded = jwtDecode(token);
-                const role = decoded.role || decoded.roles?.[0];
-
-                if (role === "ROLE_ADMIN" || role === "ROLE_USER") {
-                    navigate("/admin/home");
-                } else {
-                    setMessage("Unknown role: " + role);
-                }
-            } else {
-                setMessage("Login failed: Token not found");
-            }
-        } catch (err) {
-            setMessage(err.response?.data?.message || "Server error. Please try again later.");
+        if (form.password.value !== form.confirmPassword.value) {
+            setMessage("Passwords do not match");
+            return;
         }
-    };
+
+
+        try {
+            await AuthService.register(form.username.value, form.password.value);
+
+             navigate("/", { state: { successMessage: "Sign up successful! Please log in." } });
+        } catch (error) {
+            setMessage(error.response?.data?.message || "This account already exists. Please use another email or username");
+        }
+
+    }
 
 
 
     return (
         <>
             <div className="tabs">
-                <Link to="/register" className="tab">Sign up</Link>
-                <span className="tab active">Log in</span>
-            </div>
-            <div className="social-login">
-                <button className="social-btn google" onClick={loginWithGoogle}>
+                <span className="tab active">Sign up</span>
 
-                    <img
-                        src={Google}
-                        alt="Google"
-                        className="google-icon"
-                    />  Log in with Google</button>
+                <Link to="/" className="tab">Log in</Link>
             </div>
 
-            <div className="divider">or email</div>
-
+            <div className="dividerss"></div>
             <form>
                 <InputField
                     label="Email"
@@ -96,48 +90,61 @@ export default function LoginForm() {
                     value={form.username?.value || ""}
                     onChange={handleChange}
                     className={form.username?.error ? "custom-input-error" : ""}
-                />
-                {form.username?.error && (
+                /> {form.username?.error && (
                     <div className="error-message">{form.username.error}</div>
                 )}
+
                 <div className="password-field">
                     <InputField
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
                         placeholder="Enter your password"
                         value={form.password?.value || ""}
                         onChange={handleChange}
                         className={form.password?.error ? "custom-input-error" : ""}
-
                     />
-                    <span className="toggle-eye" onClick={toggleShowConfirmPassword}>
-                        {showConfirmPassword ? "🙈" : "👁️"}
+                    <span className="toggle-eye" onClick={toggleShowPassword}>
+                        {showPassword ? "🙈" : "👁️"}
                     </span>
                 </div>
                 {form.password?.error && (
                     <div className="error-message">{form.password.error}</div>
                 )}
-                <Link to="/forgot-password" className="forgot-link">
-                    Forgot password
-                </Link>
+
+                <div className="password-field">
+                    <InputField
+                        label="Confirm Password"
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        placeholder="Re-enter your password"
+                        value={form.confirmPassword?.value || ""}
+                        onChange={handleChange}
+                        className={form.password?.error ? "custom-input-error" : ""}
+                    />
+
+                    <span className="toggle-eye" onClick={toggleShowConfirmPassword}>
+                        {showConfirmPassword ? "🙈" : "👁️"}
+                    </span>
+                </div>
+
+
                 {message && <p className="error">{message}</p>}
 
-                <button type="button" className="btn-submit" onClick={handleSubmit}>Log in</button>
+                <button type="button" className="btn-submit" onClick={handleSubmit}>Sign in</button>
 
-                
                 <p className="terms">
                     By clicking Log in, you accept Quizlet's{" "}
                     <a href="/terms">Terms of Service</a> and{" "}
                     <a href="/privacy">Privacy Policy</a>.
                 </p>
                 <p className="register-link">
-                    New to Quizlet?{" "}
-                    <Link to="/register">Create an account</Link>
+                    Already have an account?{" "}
+                    <Link to="/">Log in</Link>
                 </p>
 
             </form>
 
         </>
-    );
+    )
 }

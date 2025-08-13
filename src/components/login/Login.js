@@ -3,14 +3,27 @@ import "../../assets/css/Login.css";
 import showToast from "../../utils/ShowToast";
 import LoginForm from "./LoginForm";
 import leftSideImg from "../../assets/image/leftSide.png";
-
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function Login() {
+    const location = useLocation();
+
     useEffect(() => {
+        if (location.state?.successMessage) {
+            Swal.fire({
+                icon: "success",
+                title: "Success",
+                timer: 2000,
+                position: "top-end",
+                text: location.state.successMessage,
+            });
+        }
+
         const loggedOut = sessionStorage.getItem("loggedOut");
         if (loggedOut) {
             showToast({
-                title: "Đã đăng xuất thành công!",
+                title: "Logged out successfully!",
                 icon: "success",
                 timer: 2000,
                 position: "top-end"
@@ -31,7 +44,7 @@ export default function Login() {
             <div class="right-section">
                 <LoginForm />
             </div>
-              
+
         </div>
     );
 }

@@ -34,7 +34,7 @@
 }
 
 .right-section {
-    flex: 0.8;
+    flex: 0.75;
     background: #fff;
     padding: 50px;
     display: flex;
@@ -47,7 +47,7 @@
     gap: 35px;
     font-weight: bold;
     margin-bottom: 25px;
-    font-size: 40px; 
+    font-size: 50px; 
 }
 
 .tab {
@@ -124,7 +124,7 @@
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 20px;
     outline: none;
     transition: border 0.3s;
 }
@@ -179,6 +179,7 @@
 }
 
 .terms {
+    text-align: center;
     font-size: 14px;
     color: #777;
     margin-top: 15px;
@@ -217,4 +218,68 @@
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+.error {
+    font-size: 12px; /* To hơn */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.password-field {
+    position: relative; 
+    margin-bottom: 16px;
+}
+
+.password-field input {
+    padding-right: 40px; 
+}
+
+.toggle-eye {
+    position: absolute;
+    top: 62%;
+    right: 12px;       
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 20px;    
+    user-select: none;
+    color: #666;
+    transition: color 0.3s;
+}
+
+.toggle-eye:hover {
+    color: #6a11cb;      
+}
+
+.input-with-icon {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input-with-icon input {
+  flex: 1;
+  padding-right: 30px; /* chừa chỗ cho icon */
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 18px;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.toggle-eye:hover {
+  color: #6a11cb;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 4px;
+  margin-bottom: 15px;
 }

@@ -3,14 +3,14 @@ import './App.css';
 import { Routes, Route } from "react-router-dom";
 import Login from './components/login/Login';
 import Home from './components/homeAdmin/Home';
-import Sigin from './components/sigin/Sigin';
+import Sigin from './components/signUp/Sign';
 
 function App() {
   return (
    <Routes>
     <Route path="/" element={<Login/>} /> 
       <Route path="/admin/home" element={<Home />} />
-     <Route path="/admin/register" element={<Sigin />} />
+     <Route path="/register" element={<Sigin />} />
 
   {/* //      <Route path="/oauth2/redirect" element={<GoogleRedirect />} /> */}
   {/* //      <Route path="/add-user" element={<AddUser />} /> */}
