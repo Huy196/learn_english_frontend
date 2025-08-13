@@ -1,0 +1,203 @@
+.quizlet-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+}
+
+.logo {
+  font-size: 50px;
+  font-weight: bold;
+  color: #3b5bff;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.dropdown {
+  cursor: pointer;
+}
+
+.arrow {
+  font-size: 10px;
+  margin-left: 4px;
+}
+
+.search-bar {
+  font-size: 1.3em;
+  height: 40px;
+  margin-left: 10%;
+  max-width: 48%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #f8f9fc;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.search-icon {
+  color: gray;
+  margin-right: 8px;
+}
+
+.search-bar input {
+  font-size: 1em;
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+}
+
+.actions {
+  margin-left: 3%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.create-btn {
+  background: none;
+  border: none;
+  color: #3b5bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-btn {
+
+  font-size: 1em;
+  width: 100px;
+  height: 50px;
+  background: #3b5bff;
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dropdown-select {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+
+.dropdown-select:focus {
+  outline: none;
+}
+
+.dropdown-select option {
+  color: black;
+}
+
+
+.user-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.settings-icon {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.settings-menu {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 120px;
+    z-index: 100;
+}
+
+.settings-menu div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.settings-menu div:hover {
+    background-color: #f0f0f0;
+}
+.user-avatar {
+    width: 30px;  
+    height: 30px; 
+    border-radius: 50%; 
+    object-fit: cover;  
+    cursor: pointer;
+}
+.actions {
+  height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-dropdown {
+  margin-left: 80px;
+    position: relative;
+    cursor: pointer;
+}
+
+.avatar-with-arrow {
+  height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.user-avatar {
+    width: 50px;   /* avatar nhỏ */
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.arrow-down {
+  margin-top: 15px;
+  margin-left: -20px;
+    font-size: 25px;
+    color: #333;
+}
+
+.settings-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+    min-width: 120px;
+}
+
+.menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.menu-item:hover {
+    background-color: #f0f0f0;
+}

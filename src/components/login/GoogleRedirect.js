@@ -19,8 +19,8 @@ export default function GoogleRedirect() {
                     decoded.authorities?.[0] ||
                     decoded.realm_access?.roles?.[0];
 
-                if (role === "ROLE_ADMIN" || role === "ROLE_USER") {
-                    navigate("/admin/home");
+                if (role === "ROLE_USER") {
+                    navigate("/homePage");
                 } else {
                     console.error("Vai trò không xác định.");
                     navigate("/login");
