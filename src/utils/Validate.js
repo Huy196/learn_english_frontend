@@ -1,6 +1,6 @@
 const MESSAGE_ERROR = {
-    username: "Email không hợp lệ",
-    password: "Mật khẩu phải ít nhất 6 ký tự",
+    username: "Invalid email",
+    password: "Password must be at least 6 characters",
 };
 
 const REGEX = {

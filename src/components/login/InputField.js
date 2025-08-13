@@ -1,6 +1,6 @@
-export default function InputField({ label, type = "text", name, value, placeholder, error, onChange }) {
+export default function InputField({ label, type = "text", name, value, placeholder, error, onChange, className }) {
     return (
-        <div className={`custom-input ${error ? "custom-input-error" : ""}`}>
+        <div className={`custom-input ${error ? "custom-input-error" : ""} ${className || ""}`}>
             <label>{label}</label>
             <input
                 type={type}
