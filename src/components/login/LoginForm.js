@@ -55,10 +55,11 @@ export default function LoginForm() {
                 const decoded = jwtDecode(token);
                 const role = decoded.role || decoded.roles?.[0];
 
-                if (role === "ROLE_ADMIN" || role === "ROLE_USER") {
+                if (role === "ROLE_ADMIN") {
                     navigate("/admin/home");
                 } else {
-                    setMessage("Unknown role: " + role);
+                    navigate("/homePage");
+
                 }
             } else {
                 setMessage("Login failed: Token not found");
@@ -125,7 +126,7 @@ export default function LoginForm() {
 
                 <button type="button" className="btn-submit" onClick={handleSubmit}>Log in</button>
 
-                
+
                 <p className="terms">
                     By clicking Log in, you accept Quizlet's{" "}
                     <a href="/terms">Terms of Service</a> and{" "}
