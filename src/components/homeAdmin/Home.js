@@ -2,10 +2,13 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/HomeAdmin.css";
 import Sidebar from "./Sidebar";
-
-import { getAllUsers } from "../../services/UserService";
+import confirmAlert from "../../utils/Alert";
+import { getAllUsers , deleteUser} from "../../services/UserService";
 import UserTable from "./UserTable";
 import AddUser from "./AddUser";
+import UpdateUser from "./UpdateUser";
+import showToast from "../../utils/ShowToast";
+import axios from "axios";
 
 
 
@@ -13,6 +16,8 @@ export default function Home() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [activeItem, setActiveItem] = useState("users");
+  const [editingUser, setEditingUser] = useState(null);
+
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -41,9 +46,40 @@ export default function Home() {
   }, [fetchUsers]);
 
   const handleEditUser = (user) => {
+    setEditingUser(user);
+    setActiveItem("edit");
   };
 
   const handleDelete = async (id) => {
+
+    const confirmed = await confirmAlert({
+      title: "Bạn có chắc muốn xóa?",
+      text: "Thao tác này sẽ không thể hoàn tác!",
+      icon: "warning",
+      confirmText: "Xóa",
+      cancelText: "Hủy"
+    });
+
+    if (!confirmed) return;
+
+    try {
+
+      await deleteUser(id, token)
+      setUsers(prev => prev.filter(user => user.id !== id));
+      showToast({
+        title: "Xoá người dùng thành công!",
+        icon: "success",
+        timer: 2000,
+        position: "top-end"
+      });
+    } catch (error) {
+      showToast({
+        title: "Lỗi khi xoá người dùng!",
+        icon: "error",
+        timer: 2000,
+        position: "top-end"
+      })
+    }
 
   }
 
@@ -68,14 +104,14 @@ export default function Home() {
         );
       case "add":
         return <AddUser setActiveItem={setActiveItem} onSuccess={handleRefreshUsers} />;
-      // case "edit":
-      // return editingUser && (
-      //     <UpdateUser
-      //         setActiveItem={setActiveItem}
-      //         user={editingUser}
-      //         onSuccess={handleRefreshUsers}
-      //     />
-      // );
+      case "edit":
+        return editingUser && (
+          <UpdateUser
+            setActiveItem={setActiveItem}
+            user={editingUser}
+            onSuccess={handleRefreshUsers}
+          />
+        );
       default:
         return null;
     }

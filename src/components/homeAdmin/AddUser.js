@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import uploadFile from "../../services/UploadFile";
 import { register } from "../../services/UserService";
+import Swal from "sweetalert2";
+import showToast from "../../utils/ShowToast";
+
+
 export default function AddUser({ onSuccess, setActiveItem }) {
     const [previewImages, setPreviewImages] = useState([]);
 
@@ -38,12 +42,12 @@ export default function AddUser({ onSuccess, setActiveItem }) {
         const token = localStorage.getItem("token");
 
         if (!token) {
-            // Show({
-            //     title: "Bạn chưa đăng nhập!",
-            //     icon: "error",
-            //     timer: 2000,
-            //     position: "top-end"
-            // });
+            showToast({
+                title: "Bạn chưa đăng nhập!",
+                icon: "error",
+                timer: 2000,
+                position: "top-end"
+            });
             return;
         }
 
@@ -55,7 +59,6 @@ export default function AddUser({ onSuccess, setActiveItem }) {
 
             const uploadResponse = await uploadFile.uploadFile(imageUploadForm, token);
             const imageNames = uploadResponse;
-            console.log("ten fdiekf" , imageNames)
 
             const userPayload = {
                 name: formData.name,
@@ -68,7 +71,7 @@ export default function AddUser({ onSuccess, setActiveItem }) {
 
             await register(userPayload, token);
 
-            // Reset form và preview
+
             setFormData({
                 name: "",
                 email: "",
@@ -80,10 +83,20 @@ export default function AddUser({ onSuccess, setActiveItem }) {
             setPreviewImages([]);
 
             if (onSuccess) onSuccess();
-            alert("Thêm người dùng thành công!");
+
+            showToast({
+                title: "Thêm người dùng thành công!",
+                icon: "success",
+                timer: 2000,
+                position: "top-end"
+            });
         } catch (error) {
-            console.error(error);
-            alert("Thêm người dùng thất bại!");
+            showToast({
+                title: "Thêm người dùng thất bại!",
+                icon: "error",
+                timer: 2000,
+                position: "top-end"
+            });
         }
     };
 
@@ -97,39 +110,47 @@ export default function AddUser({ onSuccess, setActiveItem }) {
         </button>
             <form className="add-user-form" onSubmit={handleSubmit}>
                 <h2>Thêm Người Dùng</h2>
+
+                <label>Họ và tên</label>
                 <input
                     type="text"
                     name="name"
-                    placeholder="Họ và tên"
+                    placeholder="Nhập họ và tên"
                     value={formData.name}
                     onChange={handleChange}
                     required
                 />
+
+                <label>Email</label>
                 <input
                     type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Nhập email"
                     value={formData.email}
                     onChange={handleChange}
                     required
                 />
+
+                <label>Mật khẩu</label>
                 <input
                     type="password"
                     name="password"
-                    placeholder="Mật khẩu"
+                    placeholder="Nhập mật khẩu"
                     value={formData.password}
                     onChange={handleChange}
                     required
                 />
+
+                <label>Tuổi</label>
                 <input
                     type="text"
                     name="age"
-                    placeholder="Tuổi"
+                    placeholder="Nhập tuổi"
                     value={formData.age}
                     onChange={handleChange}
                 />
 
-
+                <label>Ảnh đại diện</label>
                 <input
                     type="file"
                     name="imageFiles"
@@ -137,7 +158,6 @@ export default function AddUser({ onSuccess, setActiveItem }) {
                     onChange={handleChange}
                 />
 
-                {/* Hiển thị ảnh xem trước */}
                 <div className="preview-container">
                     {previewImages.map((src, index) => (
                         <img
@@ -149,9 +169,9 @@ export default function AddUser({ onSuccess, setActiveItem }) {
                     ))}
                 </div>
 
-
                 <button type="submit">➕ Thêm người dùng</button>
             </form>
+
         </>
     );
 }

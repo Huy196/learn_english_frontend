@@ -70,7 +70,7 @@ export default function SignForm() {
 
             await AuthService.register(userPayload);
 
-            navigate("/", { state: { successMessage: "Sign up successful! Please log in." } });
+            navigate("/login", { state: { successMessage: "Sign up successful! Please log in." } });
         } catch (error) {
             setMessage(error.response?.data?.message || "This account already exists. Please use another email or username");
         }

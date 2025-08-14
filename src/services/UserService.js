@@ -12,7 +12,13 @@ export const register = (userPayload ,token) =>
     headers: { Authorization: `Bearer ${token}` }
   })
 
-// export const deleteUser = (id, token) =>
-//   axios.delete(`${BASE_URL}/users/delete/${id}`, {
-//     headers: { Authorization: `Bearer ${token}` }
-//   });
+  export const update = (userPayload ,token) =>
+  axios.put(`${BASE_URL}/users/update`,  userPayload, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
+
+export const deleteUser = (id, token) =>
+  axios.delete(`${BASE_URL}/users/delete/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
