@@ -1,1 +1,186 @@
 
+/* Layout tổng thể */
+.page {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 20%;
+    height: 100vh;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar-title {
+    margin-bottom: 20px;
+    font-size: 20px;
+    border-bottom: 1px solid #7f8c8d;
+    padding-bottom: 10px;
+}
+
+/* Menu */
+.menu-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-item {
+    margin-bottom: 15px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.menu-item:hover {
+    background-color: #34495e;
+}
+
+.menu-item.active {
+    background-color: #1abc9c;
+    font-weight: bold;
+}
+
+/* Nội dung chính */
+.content {
+    width: 80%;
+    padding: 40px;
+    overflow-y: auto;
+    background-color: #f4f6f8;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.title {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Bảng dữ liệu */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+tr {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+td {
+    padding: 12px;
+    color: #333;
+}
+.avatar-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px; /* bo góc nhẹ nếu cần */
+    border: 1px solid #ccc; /* viền nhẹ */
+}
+
+/* Form Cập Nhật Người Dùng */
+.add-user-form {
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;              /* Center theo chiều ngang */
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    font-family: "Segoe UI", sans-serif;
+    box-sizing: border-box;         /* Đảm bảo padding không làm rộng hơn 600px */
+}
+
+.add-user-form h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #2c3e50;
+}
+
+/* Input chung */
+.add-user-form input[type="text"],
+.add-user-form input[type="email"],
+.add-user-form input[type="password"],
+.add-user-form input[type="number"],
+.add-user-form input[type="file"],
+.add-user-form button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+
+.add-user-form input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    outline: none;
+}
+
+/* Nút Lưu */
+.add-user-form button {
+    width: 100%;
+    padding: 14px;
+    background-color: #1abc9c;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-user-form button:hover {
+    background-color: #16a085;
+}
+
+/* Xem trước ảnh */
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+    justify-content: flex-start;
+}
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.preview-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+

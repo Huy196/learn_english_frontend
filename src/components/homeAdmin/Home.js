@@ -1,22 +1,23 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../assets/css/HomeAdmin.css";
-
-
-// import Sidebar from "./Sidebar";
-// import UserTable from "./UserTable";
-// import AddUser from "./AddUser";
-// import UpdateUser from "./UpdateUser";
-
-import showToast from "../../utils/ShowToast";
+import Sidebar from "./Sidebar";
 import confirmAlert from "../../utils/Alert";
-import { getAllUsers, deleteUser } from "../../services/UserService";
+import { getAllUsers , deleteUser} from "../../services/UserService";
+import UserTable from "./UserTable";
+import AddUser from "./AddUser";
+import UpdateUser from "./UpdateUser";
+import showToast from "../../utils/ShowToast";
+import axios from "axios";
+
+
 
 export default function Home() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [activeItem, setActiveItem] = useState("users");
-//   const [editingUser, setEditingUser] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
+
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -44,80 +45,85 @@ export default function Home() {
     fetchUsers();
   }, [fetchUsers]);
 
-//   const handleDelete = async (id) => {
-//     const confirmed = await confirmAlert({
-//       title: "Bạn có chắc muốn xoá?",
-//       text: "Hành động này không thể hoàn tác!",
-//       icon: "warning",
-//       confirmText: "Xoá",
-//       cancelText: "Huỷ"
-//     });
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setActiveItem("edit");
+  };
 
-//     if (!confirmed) return;
+  const handleDelete = async (id) => {
 
-//     try {
-//       await deleteUser(id, token);
-//       setUsers(prev => prev.filter(user => user.id !== id));
+    const confirmed = await confirmAlert({
+      title: "Bạn có chắc muốn xóa?",
+      text: "Thao tác này sẽ không thể hoàn tác!",
+      icon: "warning",
+      confirmText: "Xóa",
+      cancelText: "Hủy"
+    });
 
-//       showToast({ title: "Xoá người dùng thành công!" });
-//     } catch (err) {
-//       showToast({ title: "Lỗi khi xoá người dùng!", icon: "error" });
-//     }
-//   };
+    if (!confirmed) return;
 
-//   const handleEditUser = (user) => {
-//     setEditingUser(user);
-//     setActiveItem("edit");
-//   };
+    try {
 
-//   const handleRefreshUsers = async () => {
-//     await fetchUsers();
-//     setActiveItem("users");
-//   };
+      await deleteUser(id, token)
+      setUsers(prev => prev.filter(user => user.id !== id));
+      showToast({
+        title: "Xoá người dùng thành công!",
+        icon: "success",
+        timer: 2000,
+        position: "top-end"
+      });
+    } catch (error) {
+      showToast({
+        title: "Lỗi khi xoá người dùng!",
+        icon: "error",
+        timer: 2000,
+        position: "top-end"
+      })
+    }
 
-//   const renderContent = () => {
-//     if (error) return <p className="error-message">{error}</p>;
+  }
 
-//     switch (activeItem) {
-//       case "users":
-//         return (
-//           <UserTable
-//             users={users}
-//             onDelete={handleDelete}
-//             onEdit={handleEditUser}
-//             setActiveItem={setActiveItem}
-//             activeItem={activeItem}
-//           />
-//         );
-//       case "add":
-//         return <AddUser setActiveItem={setActiveItem} onSuccess={handleRefreshUsers} />;
-//       case "edit":
-//         return editingUser && (
-//           <UpdateUser
-//             setActiveItem={setActiveItem}
-//             user={editingUser}
-//             onSuccess={handleRefreshUsers}
-//           />
-//         );
-//       default:
-//         return null;
-//     }
-//   };
+  const handleRefreshUsers = async () => {
+    await fetchUsers();
+    setActiveItem("users");
+  };
+
+  const renderContent = () => {
+    if (error) return <p className="error-message">{error}</p>;
+
+    switch (activeItem) {
+      case "users":
+        return (
+          <UserTable
+            users={users}
+            onDelete={handleDelete}
+            onEdit={handleEditUser}
+            setActiveItem={setActiveItem}
+            activeItem={activeItem}
+          />
+        );
+      case "add":
+        return <AddUser setActiveItem={setActiveItem} onSuccess={handleRefreshUsers} />;
+      case "edit":
+        return editingUser && (
+          <UpdateUser
+            setActiveItem={setActiveItem}
+            user={editingUser}
+            onSuccess={handleRefreshUsers}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="page">
-      {/* <Sidebar activeItem={activeItem} onNavigate={setActiveItem} />
+      <Sidebar activeItem={activeItem} onNavigate={setActiveItem} />
       <div className="content page-content">
         {renderContent()}
-      </div> */}
-
-       <div className="content page-content">
-        {error ? (
-          <p className="error-message">{error}</p>
-        ) : (
-          <p>Trang Admin - Đã đăng nhập (Token được giữ trong localStorage)</p>
-        )}
       </div>
+
     </div>
   );
 }

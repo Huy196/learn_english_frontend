@@ -62,9 +62,15 @@ export default function SignForm() {
 
 
         try {
-            await AuthService.register(form.username.value, form.password.value);
+            const userPayload = {
+                email: form.username.value, 
+                password: form.password.value,
+                roles: ["ROLE_USER"]
+            };
 
-             navigate("/", { state: { successMessage: "Sign up successful! Please log in." } });
+            await AuthService.register(userPayload);
+
+            navigate("/login", { state: { successMessage: "Sign up successful! Please log in." } });
         } catch (error) {
             setMessage(error.response?.data?.message || "This account already exists. Please use another email or username");
         }
@@ -78,7 +84,7 @@ export default function SignForm() {
             <div className="tabs">
                 <span className="tab active">Sign up</span>
 
-                <Link to="/" className="tab">Log in</Link>
+                <Link to="/login" className="tab">Log in</Link>
             </div>
 
             <div className="dividerss"></div>
@@ -140,7 +146,7 @@ export default function SignForm() {
                 </p>
                 <p className="register-link">
                     Already have an account?{" "}
-                    <Link to="/">Log in</Link>
+                    <Link to="/login">Log in</Link>
                 </p>
 
             </form>

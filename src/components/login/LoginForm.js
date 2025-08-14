@@ -15,7 +15,7 @@ export default function LoginForm() {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
-    const [showPassword, setShowPassword] = useState(false);
+    // const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const toggleShowConfirmPassword = () => {
@@ -65,7 +65,7 @@ export default function LoginForm() {
                 setMessage("Login failed: Token not found");
             }
         } catch (err) {
-            setMessage(err.response?.data?.message || "Server error. Please try again later.");
+            setMessage(err.response?.data?.message || "Incorrect login information please try again");
         }
     };
 
@@ -104,7 +104,7 @@ export default function LoginForm() {
                 <div className="password-field">
                     <InputField
                         label="Password"
-                        type="password"
+                        type={showConfirmPassword ? "text" : "password"}
                         name="password"
                         placeholder="Enter your password"
                         value={form.password?.value || ""}
