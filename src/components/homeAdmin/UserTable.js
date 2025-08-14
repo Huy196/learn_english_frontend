@@ -8,31 +8,29 @@ export default function UserTable({ users, onEdit, onDelete, setActiveItem, acti
     };
     return (
         <>
-            <h2 className="title">📋 Danh sách người dùng</h2>
+            <h2 className="title">📋 User List</h2>
 
             <button
                 className="menu-item"
                 onClick={handleToggle}
                 style={{ cursor: "pointer", margin: "10px 0", padding: "8px 16px" }}
             >
-                {activeItem === "add" ? "🔙 Quay lại" : "➕ Thêm người dùng"}
+                {activeItem === "add" ? "🔙 Back" : "➕ Add User"}
             </button>
-
 
             <table className="table">
                 <thead>
                     <tr>
-                        <th>STT</th>
-                        <th>Ảnh</th>
+                        <th>No.</th>
+                        <th>Image</th>
                         <th>Email</th>
-                        <th>Tên</th>
-                        <th>Tuổi</th>
-                        <th>Hành động</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-               <tbody>
+                <tbody>
                     {users.map((user, index) => {
-                        // Lấy ảnh đầu tiên, nếu không có thì dùng 'default.jpg'
                         const imageName = user.images?.[0] || "default.jpg";
                         const imageUrl = `${BASE_URL}/uploadFile/${imageName}`;
 
@@ -43,7 +41,12 @@ export default function UserTable({ users, onEdit, onDelete, setActiveItem, acti
                                     <img
                                         src={imageUrl}
                                         alt="avatar"
-                                        style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "50%" }}
+                                        style={{
+                                            width: "50px",
+                                            height: "50px",
+                                            objectFit: "cover",
+                                            borderRadius: "50%"
+                                        }}
                                     />
                                 </td>
                                 <td>{user.email}</td>
@@ -51,10 +54,10 @@ export default function UserTable({ users, onEdit, onDelete, setActiveItem, acti
                                 <td>{user.age}</td>
                                 <td>
                                     <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
-                                        <button onClick={() => onEdit(user)} className="btn-icon" title="Sửa">
+                                        <button onClick={() => onEdit(user)} className="btn-icon" title="Edit">
                                             ✏️
                                         </button>
-                                        <button onClick={() => onDelete(user.id)} className="btn-icon" title="Xoá">
+                                        <button onClick={() => onDelete(user.id)} className="btn-icon" title="Delete">
                                             🗑️
                                         </button>
                                     </div>

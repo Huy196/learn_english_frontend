@@ -5,7 +5,6 @@ import uploadFile from "../../services/UploadFile";
 import { update } from "../../services/UserService";
 import showToast from "../../utils/ShowToast";
 
-
 export default function UpdateUser({ onSuccess, user, setActiveItem }) {
     const [formData, setFormData] = useState({
         id: user.id,
@@ -60,7 +59,7 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
 
         if (!token) {
             showToast({
-                title: "Bạn chưa đăng nhập!",
+                title: "You are not logged in!",
                 icon: "error",
                 timer: 2000,
                 position: "top-end"
@@ -79,7 +78,6 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
 
                 const uploadResponse = await uploadFile.uploadFile(imageUploadForm, token);
                 imageNames = uploadResponse;
-
             }
 
             const userPayload = {
@@ -91,12 +89,12 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
                 images: imageNames,
             };
 
-            console.log("fgsud", userPayload)
+            console.log("Updated user data:", userPayload);
 
-            await update(userPayload, token)
+            await update(userPayload, token);
 
             showToast({
-                title: "Cập nhật người dùng thành công!",
+                title: "User updated successfully!",
                 icon: "success",
                 timer: 2000,
                 position: "top-end"
@@ -106,16 +104,15 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
             setActiveItem("users");
 
         } catch (error) {
-            console.error("Lỗi khi cập nhật:", error);
+            console.error("Error updating user:", error);
             showToast({
-                title: "Cập nhật thất bại!",
+                title: "Failed to update user!",
                 icon: "error",
                 timer: 2000,
                 position: "top-end"
             });
         }
     };
-
 
     return (
         <>
@@ -124,39 +121,52 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
                 onClick={() => setActiveItem("users")}
                 style={{ cursor: "pointer", padding: "8px 16px", marginBottom: "16px" }}
             >
-                🔙 Quay lại
+                🔙 Back
             </button>
 
             <form className="add-user-form" onSubmit={handleSubmit}>
-                <h2>✏️ Cập nhật Người Dùng</h2>
+                <h2>✏️ Update User</h2>
 
+                {/* Full Name */}
+                <label htmlFor="name">Full Name</label>
                 <input
+                    id="name"
                     type="text"
                     name="name"
-                    placeholder="Họ và tên"
+                    placeholder="Enter full name"
                     value={formData.name}
                     onChange={handleChange}
                     required
                 />
+
+                {/* Email */}
+                <label htmlFor="email">Email</label>
                 <input
+                    id="email"
                     type="email"
                     name="email"
-                    placeholder="Email"
+                    placeholder="Enter email address"
                     value={formData.email}
                     onChange={handleChange}
                     required
                 />
 
+                {/* Age */}
+                <label htmlFor="age">Age</label>
                 <input
+                    id="age"
                     type="number"
                     name="age"
-                    placeholder="Tuổi"
+                    placeholder="Enter age"
                     value={formData.age}
                     onChange={handleChange}
                     required
                 />
 
+                {/* Upload Image */}
+                <label htmlFor="imageFiles">Profile Image(s)</label>
                 <input
+                    id="imageFiles"
                     type="file"
                     name="imageFiles"
                     multiple
@@ -164,6 +174,7 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
                     onChange={handleImageChange}
                 />
 
+                {/* Image Preview */}
                 <div className="preview-container">
                     {previewImages.map((src, index) => (
                         <img
@@ -182,10 +193,10 @@ export default function UpdateUser({ onSuccess, user, setActiveItem }) {
                 </div>
 
                 <button type="submit" style={{ marginTop: "16px" }}>
-                    💾 Lưu thay đổi
+                    💾 Save Changes
                 </button>
             </form>
-        </>
-    )
 
+        </>
+    );
 }

@@ -1,8 +1,7 @@
 // src/components/homeAdmin/Sidebar.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Sweetalert from "sweetalert2";
-
+import confirmAlert from "../../utils/Alert";
 
 export default function Sidebar({ activeItem, onNavigate }) {
     const navigate = useNavigate();
@@ -13,23 +12,20 @@ export default function Sidebar({ activeItem, onNavigate }) {
     };
 
     const handleLogout = async () => {
-    const confirmed = await Sweetalert({
-        title: "Xác nhận đăng xuất",
-        text: "Bạn có chắc chắn muốn đăng xuất?",
-        icon: "warning",
-        confirmText: "Đăng xuất",
-        cancelText: "Huỷ"
-    });
+        const confirmed = await confirmAlert({
+            title: "Are you sure you want to log out?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            confirmText: "Log out",
+            cancelText: "Cancel"
+        });
 
-    if (!confirmed) return;
+        if (!confirmed) return;
 
-    localStorage.removeItem("token");
-
-    sessionStorage.setItem("loggedOut", "true");
-
-    navigate("/login");
-};
-
+        localStorage.removeItem("token");
+        sessionStorage.setItem("loggedOut", "true");
+        navigate("/login");
+    };
 
     return (
         <div className="sidebar">
@@ -39,28 +35,25 @@ export default function Sidebar({ activeItem, onNavigate }) {
                     className={`menu-item ${activeItem === "users" ? "active" : ""}`}
                     onClick={() => handleClick("/admin/home", "users")}
                 >
-                    📋 Danh sách người dùng
+                    📋 User List
                 </li>
                 <li
                     className={`menu-item ${activeItem === "add" ? "active" : ""}`}
                     onClick={() => handleClick("/admin/home", "add")}
                 >
-                    ➕ Thêm người dùng
+                    ➕ Add User
                 </li>
                 <li
                     className={`menu-item ${activeItem === "settings" ? "active" : ""}`}
                     onClick={() => handleClick("/settings", "settings")}
                 >
-                    ⚙️ Cài đặt
+                    ⚙️ Settings
                 </li>
                 <li
                     className="menu-item"
-                    onClick={() => {
-                        localStorage.removeItem("authToken");
-                        handleLogout();
-                    }}
+                    onClick={handleLogout}
                 >
-                    🚪 Đăng xuất
+                    🚪 Log out
                 </li>
             </ul>
         </div>

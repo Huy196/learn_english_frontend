@@ -22,15 +22,15 @@ export default function GoogleRedirect() {
                 if (role === "ROLE_USER") {
                     navigate("/homePage");
                 } else {
-                    console.error("Vai trò không xác định.");
+                    console.error("Unrecognized role.");
                     navigate("/login");
                 }
             } catch (e) {
-                console.error("Decode token thất bại:", e);
+                console.error("Failed to decode token:", e);
                 navigate("/login");
             }
         }
     }, [navigate]);
 
-    return <h2>Đang đăng nhập bằng Google...</h2>;
+    return <h2>Logging in with Google...</h2>;
 }

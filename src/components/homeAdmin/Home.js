@@ -3,14 +3,12 @@ import { useNavigate } from "react-router-dom";
 import "../../assets/css/HomeAdmin.css";
 import Sidebar from "./Sidebar";
 import confirmAlert from "../../utils/Alert";
-import { getAllUsers , deleteUser} from "../../services/UserService";
+import { getAllUsers, deleteUser } from "../../services/UserService";
 import UserTable from "./UserTable";
 import AddUser from "./AddUser";
 import UpdateUser from "./UpdateUser";
 import showToast from "../../utils/ShowToast";
 import axios from "axios";
-
-
 
 export default function Home() {
   const [users, setUsers] = useState([]);
@@ -18,13 +16,12 @@ export default function Home() {
   const [activeItem, setActiveItem] = useState("users");
   const [editingUser, setEditingUser] = useState(null);
 
-
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const fetchUsers = useCallback(async () => {
     if (!token) {
-      setError("Chưa đăng nhập!");
+      setError("Not logged in!");
       setTimeout(() => navigate("/", { replace: true }), 1500);
       return;
     }
@@ -35,9 +32,9 @@ export default function Home() {
       setError("");
     } catch (err) {
       const status = err.response?.status;
-      if (status === 403) setError("Bạn không có quyền truy cập!");
-      else if (status === 401) setError("Token không hợp lệ hoặc chưa đăng nhập!");
-      else setError("Không thể kết nối đến máy chủ.");
+      if (status === 403) setError("You do not have permission to access!");
+      else if (status === 401) setError("Invalid token or not logged in!");
+      else setError("Cannot connect to the server.");
     }
   }, [token, navigate]);
 
@@ -51,37 +48,34 @@ export default function Home() {
   };
 
   const handleDelete = async (id) => {
-
     const confirmed = await confirmAlert({
-      title: "Bạn có chắc muốn xóa?",
-      text: "Thao tác này sẽ không thể hoàn tác!",
+      title: "Are you sure you want to delete?",
+      text: "This action cannot be undone!",
       icon: "warning",
-      confirmText: "Xóa",
-      cancelText: "Hủy"
+      confirmText: "Delete",
+      cancelText: "Cancel",
     });
 
     if (!confirmed) return;
 
     try {
-
-      await deleteUser(id, token)
-      setUsers(prev => prev.filter(user => user.id !== id));
+      await deleteUser(id, token);
+      setUsers((prev) => prev.filter((user) => user.id !== id));
       showToast({
-        title: "Xoá người dùng thành công!",
+        title: "User deleted successfully!",
         icon: "success",
         timer: 2000,
-        position: "top-end"
+        position: "top-end",
       });
     } catch (error) {
       showToast({
-        title: "Lỗi khi xoá người dùng!",
+        title: "Error deleting user!",
         icon: "error",
         timer: 2000,
-        position: "top-end"
-      })
+        position: "top-end",
+      });
     }
-
-  }
+  };
 
   const handleRefreshUsers = async () => {
     await fetchUsers();
@@ -103,14 +97,21 @@ export default function Home() {
           />
         );
       case "add":
-        return <AddUser setActiveItem={setActiveItem} onSuccess={handleRefreshUsers} />;
-      case "edit":
-        return editingUser && (
-          <UpdateUser
+        return (
+          <AddUser
             setActiveItem={setActiveItem}
-            user={editingUser}
             onSuccess={handleRefreshUsers}
           />
+        );
+      case "edit":
+        return (
+          editingUser && (
+            <UpdateUser
+              setActiveItem={setActiveItem}
+              user={editingUser}
+              onSuccess={handleRefreshUsers}
+            />
+          )
         );
       default:
         return null;
@@ -120,10 +121,7 @@ export default function Home() {
   return (
     <div className="page">
       <Sidebar activeItem={activeItem} onNavigate={setActiveItem} />
-      <div className="content page-content">
-        {renderContent()}
-      </div>
-
+      <div className="content page-content">{renderContent()}</div>
     </div>
   );
 }

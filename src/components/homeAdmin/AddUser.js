@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import uploadFile from "../../services/UploadFile";
 import { register } from "../../services/UserService";
-import Swal from "sweetalert2";
 import showToast from "../../utils/ShowToast";
-
 
 export default function AddUser({ onSuccess, setActiveItem }) {
     const [previewImages, setPreviewImages] = useState([]);
@@ -20,8 +16,6 @@ export default function AddUser({ onSuccess, setActiveItem }) {
     });
 
     const handleChange = (e) => {
-
-
         const { name, value, files } = e.target;
         if (name === "imageFiles") {
             const selectedFiles = Array.from(files);
@@ -43,7 +37,7 @@ export default function AddUser({ onSuccess, setActiveItem }) {
 
         if (!token) {
             showToast({
-                title: "Bạn chưa đăng nhập!",
+                title: "You are not logged in!",
                 icon: "error",
                 timer: 2000,
                 position: "top-end"
@@ -71,7 +65,6 @@ export default function AddUser({ onSuccess, setActiveItem }) {
 
             await register(userPayload, token);
 
-
             setFormData({
                 name: "",
                 email: "",
@@ -85,14 +78,14 @@ export default function AddUser({ onSuccess, setActiveItem }) {
             if (onSuccess) onSuccess();
 
             showToast({
-                title: "Thêm người dùng thành công!",
+                title: "User added successfully!",
                 icon: "success",
                 timer: 2000,
                 position: "top-end"
             });
         } catch (error) {
             showToast({
-                title: "Thêm người dùng thất bại!",
+                title: "Failed to add user!",
                 icon: "error",
                 timer: 2000,
                 position: "top-end"
@@ -101,21 +94,22 @@ export default function AddUser({ onSuccess, setActiveItem }) {
     };
 
     return (
-        <>  <button
-            className="menu-item"
-            onClick={() => setActiveItem("users")}
-            style={{ cursor: "pointer", padding: "8px 16px" }}
-        >
-            🔙 Quay lại
-        </button>
+        <>
+            <button
+                className="menu-item"
+                onClick={() => setActiveItem("users")}
+                style={{ cursor: "pointer", padding: "8px 16px" }}
+            >
+                🔙 Back
+            </button>
             <form className="add-user-form" onSubmit={handleSubmit}>
-                <h2>Thêm Người Dùng</h2>
+                <h2>Add User</h2>
 
-                <label>Họ và tên</label>
+                <label>Full Name</label>
                 <input
                     type="text"
                     name="name"
-                    placeholder="Nhập họ và tên"
+                    placeholder="Enter your full name"
                     value={formData.name}
                     onChange={handleChange}
                     required
@@ -125,32 +119,32 @@ export default function AddUser({ onSuccess, setActiveItem }) {
                 <input
                     type="email"
                     name="email"
-                    placeholder="Nhập email"
+                    placeholder="Enter email"
                     value={formData.email}
                     onChange={handleChange}
                     required
                 />
 
-                <label>Mật khẩu</label>
+                <label>Password</label>
                 <input
                     type="password"
                     name="password"
-                    placeholder="Nhập mật khẩu"
+                    placeholder="Enter password"
                     value={formData.password}
                     onChange={handleChange}
                     required
                 />
 
-                <label>Tuổi</label>
+                <label>Age</label>
                 <input
                     type="text"
                     name="age"
-                    placeholder="Nhập tuổi"
+                    placeholder="Enter age"
                     value={formData.age}
                     onChange={handleChange}
                 />
 
-                <label>Ảnh đại diện</label>
+                <label>Profile Picture</label>
                 <input
                     type="file"
                     name="imageFiles"
@@ -169,9 +163,8 @@ export default function AddUser({ onSuccess, setActiveItem }) {
                     ))}
                 </div>
 
-                <button type="submit">➕ Thêm người dùng</button>
+                <button type="submit">➕ Add User</button>
             </form>
-
         </>
     );
 }
